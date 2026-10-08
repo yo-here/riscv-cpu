@@ -7,6 +7,8 @@ module decoder (
     output logic       mem_read,
     output logic       mem_write,
     output logic       mem_to_reg,
+    output logic       branch,
+    output logic       branch_ne,
     output logic [3:0] alu_control
 );
 
@@ -16,6 +18,8 @@ module decoder (
         mem_read    = 1'b0;
         mem_write   = 1'b0;
         mem_to_reg  = 1'b0;
+        branch      = 1'b0;
+        branch_ne   = 1'b0;
         alu_control = 4'b0000;
 
         case (opcode)
@@ -58,6 +62,18 @@ module decoder (
                 alu_src     = 1'b1;
                 mem_write   = 1'b1;
                 alu_control = 4'b0000;
+            end
+            7'b1100011: begin
+                alu_src = 1'b0;
+                case (funct3)
+                    3'b000: begin branch = 1'b1; branch_ne = 1'b0; alu_control = 4'b0001; end
+                    3'b001: begin branch = 1'b1; branch_ne = 1'b1; alu_control = 4'b0001; end
+                    3'b100: begin branch = 1'b1; branch_ne = 1'b1; alu_control = 4'b0101; end
+                    3'b101: begin branch = 1'b1; branch_ne = 1'b0; alu_control = 4'b0101; end
+                    3'b110: begin branch = 1'b1; branch_ne = 1'b1; alu_control = 4'b0110; end
+                    3'b111: begin branch = 1'b1; branch_ne = 1'b0; alu_control = 4'b0110; end
+                    default: ;
+                endcase
             end
             default: ;
         endcase
