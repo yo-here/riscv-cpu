@@ -9,7 +9,7 @@ A 5-stage pipelined RV32IM processor written in SystemVerilog, verified with Ver
 | Register file | Done, tested |
 | Immediate generator | Done, tested |
 | ALU | Done, tested |
-| Decoder | R-type and I-type ALU, tested |
+| Decoder | ALU ops, loads, stores, tested |
 | Pipeline | Not started |
 
 ## Running the tests
