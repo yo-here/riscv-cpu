@@ -4,12 +4,18 @@ module decoder (
     input  logic       funct7_5,
     output logic       reg_write,
     output logic       alu_src,
+    output logic       mem_read,
+    output logic       mem_write,
+    output logic       mem_to_reg,
     output logic [3:0] alu_control
 );
 
     always_comb begin
         reg_write   = 1'b0;
         alu_src     = 1'b0;
+        mem_read    = 1'b0;
+        mem_write   = 1'b0;
+        mem_to_reg  = 1'b0;
         alu_control = 4'b0000;
 
         case (opcode)
@@ -40,6 +46,18 @@ module decoder (
                     3'b110: alu_control = 4'b0011;
                     3'b111: alu_control = 4'b0010;
                 endcase
+            end
+            7'b0000011: begin
+                reg_write   = 1'b1;
+                alu_src     = 1'b1;
+                mem_read    = 1'b1;
+                mem_to_reg  = 1'b1;
+                alu_control = 4'b0000;
+            end
+            7'b0100011: begin
+                alu_src     = 1'b1;
+                mem_write   = 1'b1;
+                alu_control = 4'b0000;
             end
             default: ;
         endcase
