@@ -1,0 +1,3 @@
+sim/
+obj_dir/
+*.vcd
