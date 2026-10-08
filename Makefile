@@ -1,6 +1,6 @@
 kk.PHONY: lint test
 
-MODULES = regfile imm_gen alu
+MODULES = regfile imm_gen alu decoder
 
 lint:
 	for m in $(MODULES); do verilator --lint-only -Wall --top-module $$m rtl/$$m.sv || exit 1; done
