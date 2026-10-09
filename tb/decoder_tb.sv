@@ -93,8 +93,8 @@ module decoder_tb;
         check("BGE (bit 30 set)", 7'b1100011, 3'b101, 1'b1, 1'b0, 1'b0, 4'b0101, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0);
         check("Invalid branch funct3 does nothing", 7'b1100011, 3'b010, 1'b0, 1'b0, 1'b0, 4'b0000, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0);
 
-        check("Unsupported opcode writes nothing", 7'b1101111, 3'b000, 1'b0, 1'b0, 1'b0, 4'b0000, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0);
-
+// Verify an unsupported opcode does not activate control signals
+check("Unsupported opcode writes nothing", 7'b1111111, 3'b000, 1'b0, 1'b0, 1'b0, 4'b0000, 1'b0, 1'b0, 1'b0, 1'b0, 1'b0);
         if (errors == 0)
             $display("ALL TESTS PASSED");
         else

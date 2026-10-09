@@ -6,11 +6,9 @@ module imm_gen (
     always_comb begin
         case (instruction[6:0])
 
-            7'b0010011: begin
-                immediate = {{20{instruction[31]}}, instruction[31:20]};
-            end
-
-            7'b0000011: begin
+            7'b0010011,
+            7'b0000011,
+            7'b1100111: begin
                 immediate = {{20{instruction[31]}}, instruction[31:20]};
             end
 
@@ -34,6 +32,11 @@ module imm_gen (
                              instruction[20],
                              instruction[30:21],
                              1'b0};
+            end
+
+            7'b0110111,
+            7'b0010111: begin
+                immediate = {instruction[31:12], 12'b0};
             end
 
             default: begin

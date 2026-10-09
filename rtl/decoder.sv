@@ -75,7 +75,58 @@ module decoder (
                     default: ;
                 endcase
             end
+
+// JAL: Jump and Link
+7'b1101111: begin
+
+    // Enable writing the return address to rd
+    reg_write = 1'b1;
+
+end
+
+// JALR: Jump and Link Register
+7'b1100111: begin
+
+    // Enable writing the return address to rd
+    reg_write = 1'b1;
+
+    // Select the immediate as the second ALU operand
+    alu_src = 1'b1;
+
+    // Select addition to calculate rs1 + immediate
+    alu_control = 4'b0000;
+
+end
+
             default: ;
+            
+		// LUI: Load Upper Immediate
+            7'b0110111: begin
+
+                // Enable writing to the destination register
+                reg_write = 1'b1;
+
+                // Use the immediate as ALU operand B
+                alu_src = 1'b1;
+
+                // Select addition in the ALU
+                alu_control = 4'b0000;
+
+            end
+
+            // AUIPC: Add Upper Immediate to PC
+            7'b0010111: begin
+
+                // Enable writing to the destination register
+                reg_write = 1'b1;
+
+                // Use the immediate as ALU operand B
+                alu_src = 1'b1;
+
+                // Select addition in the ALU
+                alu_control = 4'b0000;
+
+            end
         endcase
     end
 
